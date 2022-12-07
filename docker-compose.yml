@@ -1,75 +1,71 @@
 version: '3.8'
 
 services:
+    alpine:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        container_name: symfony_docker_wastapp
+        restart: on-failure
+        ports:
+            - "1234:80"
+        volumes:
+            - ./conf/site.conf:/etc/nginx/http.d/default.conf
+            - ./src:/var/www/html
+        networks:
+            - acpSymfony
 
-  symfony:
-    build: ./docker/symfony
-    container_name: symfony
-    ports:
-      - "8245:80"
-    volumes:
-      - ./docker/symfony/vhosts:/etc/apache2/sites-enabled
-      - ./symfony:/var/www/symfony
-    restart: always
-    networks:
-      - dev
+    db:
+        image: mariadb:10.8.2
+        container_name: mariadb_docker_wastapp
+        restart: always
+        ports:
+            - "3306:3306"
+        volumes:
+            - db-data:/var/lib/mysql
+        environment:
+            MYSQL_ROOT_PASSWORD: 'ChangeMeLater'
+        networks:
+            - acpSymfony
 
-#  maildev:
-#    image: maildev/maildev
-#    container_name: maildev
-#    command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
-#    ports:
-#      - "8081:80"
-#    restart: always
-#    networks:
-#      - dev
+    maildev:
+        image: maildev/maildev
+        container_name: maildev_docker_wastapp
+        command: bin/maildev --web 80 --smtp 25 --hide-extensions STARTTLS
+        ports:
+            - "8081:80"
+        restart: always
+        networks:
+            - acpSymfony
 
-  mariadb:
-    image: mariadb:10.9.3
-    container_name: mariadb
-    ports: [ "3306:3306" ]
-    restart: always
-    volumes:
-      - db_data:/var/lib/mysql
-    environment:
-      MYSQL_ROOT_PASSWORD: root
-    networks:
-      - dev
-
-  phpmyadmin:
-    image: phpmyadmin:5.2
-    container_name: pma
-    restart: always
-    depends_on:
-      - mariadb
-    ports: [ "8080:80" ]
-    environment:
-      PMA_HOST: mariadb
-    networks:
-      - dev
-
-  caddy:
-    image: dunglas/mercure
-    restart: unless-stopped
-    container_name: mercure
-    environment:
-      # Uncomment the following line to disable HTTPS
-      #SERVER_NAME: ':80'
-      MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
-      MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
-      MERCURE_EXTRA_DIRECTIVES:
-        cors_origins "http://localhost:3000"
-        cors_origins "http://localhost:8245"
-    # Uncomment the following line to enable the development mode
-    command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
-    ports:
-      - "80:80"
-      - "443:443"
-    networks:
-      - dev
-
-networks:
-  dev:
+    caddy:
+        image: dunglas/mercure
+        restart: unless-stopped
+        container_name: mercure_docker_wastapp
+        environment:
+            # Uncomment the following line to disable HTTPS
+            SERVER_NAME: ':80'
+            MERCURE_PUBLISHER_JWT_KEY: '!ChangeMe!'
+            MERCURE_SUBSCRIBER_JWT_KEY: '!ChangeMe!'
+            MERCURE_EXTRA_DIRECTIVES: cors_origins "http://localhost:3000" cors_origins "http://localhost:8245"
+        #                anonymous
+        # Uncomment the following line to enable the development mode
+        command: /usr/bin/caddy run -config /etc/caddy/Caddyfile.dev
+        ports:
+            - "9090:80"
+            - "443:443"
+        volumes:
+        - caddy_data:/data
+        - caddy_config:/config
+        networks:
+            - dev
 
 volumes:
-  db_data:
+    db-data:
+    caddy_data:
+    caddy_config:
+
+
+networks:
+    dev:
+    acpSymfony:

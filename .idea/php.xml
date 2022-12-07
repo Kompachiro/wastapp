@@ -63,6 +63,20 @@
       <path value="$PROJECT_DIR$/symfony/vendor/psr/cache" />
       <path value="$PROJECT_DIR$/symfony/vendor/psr/container" />
       <path value="$PROJECT_DIR$/symfony/vendor/composer" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/security-core" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/maker-bundle" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/security-http" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/property-info" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/property-access" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/security-csrf" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/password-hasher" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/security-bundle" />
+      <path value="$PROJECT_DIR$/symfony/vendor/nikic/php-parser" />
+      <path value="$PROJECT_DIR$/symfony/vendor/twig/twig" />
+      <path value="$PROJECT_DIR$/symfony/vendor/twig/extra-bundle" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/translation-contracts" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/twig-bridge" />
+      <path value="$PROJECT_DIR$/symfony/vendor/symfony/twig-bundle" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.1" />
