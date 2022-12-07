@@ -11,9 +11,7 @@ class IndexController extends AbstractController
     #[Route('/hello-wastapp', name: 'app_hello-wastapp',  methods: ['GET'])]
     public function helloWastapp(): Response
     {
-        return $this->json([
-            'data' => 'Welcome to Wastapp!',
-        ], 200, []);
+        return new Response('Welcome to Wastapp!');
     }
 
     #[Route('/index', name: 'app_index')]
